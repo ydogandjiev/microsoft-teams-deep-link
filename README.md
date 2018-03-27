@@ -3,7 +3,6 @@
 A module to help generate deep links for Microsoft Teams
 
 [![Build Status](https://travis-ci.org/ydogandjiev/microsoft-teams-deep-link.svg?branch=master)](https://travis-ci.org/ydogandjiev/microsoft-teams-deep-link)
-
 [![Coverage Status](https://coveralls.io/repos/github/ydogandjiev/microsoft-teams-deep-link/badge.svg?branch=master)](https://coveralls.io/github/ydogandjiev/microsoft-teams-deep-link?branch=master)
 
 ## Installation
