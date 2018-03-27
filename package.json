@@ -1,0 +1,25 @@
+{
+  "name": "microsoft-teams-deep-link",
+  "version": "0.0.1",
+  "description": "A module to help generate deep links for Microsoft Teams",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ydogandjiev/microsoft-teams-deep-link.git"
+  },
+  "author": "Yuri Dogandjiev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ydogandjiev/microsoft-teams-deep-link/issues"
+  },
+  "homepage": "https://github.com/ydogandjiev/microsoft-teams-deep-link#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5",
+    "typescript": "^2.8.1"
+  }
+}
