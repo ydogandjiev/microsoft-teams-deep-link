@@ -2,12 +2,13 @@
 
 A module to help generate deep links for Microsoft Teams
 
+[![Build Status](https://travis-ci.org/ydogandjiev/microsoft-teams-deep-link.svg?branch=master)](https://travis-ci.org/ydogandjiev/microsoft-teams-deep-link)
+
 ## Installation
 
 ```sh
 npm install microsoft-teams-deep-link --save
 yarn add microsoft-teams-deep-link
-bower install microsoft-teams-deep-link --save
 ```
 
 ## Usage
