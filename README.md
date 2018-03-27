@@ -13,7 +13,7 @@ yarn add microsoft-teams-deep-link
 
 ## Usage
 
-### Javascript
+### JavaScript
 
 ```javascript
 var teamsDeepLink = require('microsoft-teams-deep-link');
