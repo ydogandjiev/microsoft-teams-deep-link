@@ -52,8 +52,10 @@ console.log(deepLink);
 Output should be "https://teams.microsoft.com/l/entity/someAppId/_djb2_msteams_prefix_3116810623?webUrl=someEntityWebUrl&label=someEntityLabel"
 ```
 
-## Test
+## Build & Test
 
 ```sh
-npm run test
+npm install
+npm run build
+npm run cover
 ```
