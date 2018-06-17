@@ -55,7 +55,7 @@ Output should be "https://teams.microsoft.com/l/entity/someAppId/_djb2_msteams_p
 ## Build & Test
 
 ```sh
-npm install
-npm run build
-npm run cover
+yarn install
+yarn run build
+yarn run cover
 ```
