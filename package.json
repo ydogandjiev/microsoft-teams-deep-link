@@ -2,7 +2,7 @@
   "name": "microsoft-teams-deep-link",
   "version": "0.0.2",
   "description": "A module to help generate deep links for Microsoft Teams",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "test": "mocha --reporter spec",
