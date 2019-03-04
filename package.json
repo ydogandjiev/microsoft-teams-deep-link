@@ -1,8 +1,8 @@
 {
   "name": "microsoft-teams-deep-link",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A module to help generate deep links for Microsoft Teams",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "test": "mocha --reporter spec",
@@ -19,13 +19,14 @@
   },
   "homepage": "https://github.com/ydogandjiev/microsoft-teams-deep-link#readme",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
     "istanbul": "^0.4.5",
-    "mocha": "^5.1.1",
-    "typescript": "^2.8.3"
+    "mocha": "^5.2.0",
+    "typescript": "^2.9.2"
   },
   "dependencies": {
+    "@types/url-join": "^4.0.0",
     "url-join": "^4.0.0"
   }
 }
