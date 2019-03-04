@@ -1,3 +1,5 @@
+import urljoin from "url-join";
+
 export interface Entity {
   entityId: string;
   entityWebUrl: string;
@@ -5,6 +7,69 @@ export interface Entity {
   subEntityId?: string;
   canvasUrl?: string;
   channelId?: string;
+}
+
+export interface Meeting {
+  conversationId: string;
+}
+
+export interface Message {
+  conversationId: string;
+  messageId: string;
+}
+
+export interface Call {
+  conversationId: string;
+  organizerId: string;
+  rootMessageId?: string;
+  messageId?: string;
+  title?: string;
+}
+
+export interface Team {
+  teamId: string;
+}
+
+export interface Channel {
+  channelId: string;
+  displayName: string;
+}
+
+interface DeepLink {
+  type: string;
+  containerId: string;
+  itemId: string;
+  label?: string;
+  webUrl?: string;
+  context?: string;
+  groupId?: string;
+  tenantId?: string;
+}
+
+function getDeepLinkUrl(deepLink: DeepLink): string {
+  let deepLinkUrl = `https://teams.microsoft.com/l/${deepLink.type}/${deepLink.containerId}/${deepLink.itemId}`;
+
+  if (deepLink.webUrl) {
+    deepLinkUrl = urljoin(deepLinkUrl, `?webUrl=${deepLink.webUrl}`);
+  }
+
+  if (deepLink.label) {
+    deepLinkUrl = urljoin(deepLinkUrl, `?label=${deepLink.label}`);
+  }
+
+  if (deepLink.context) {
+    deepLinkUrl = urljoin(deepLinkUrl, `?context=${deepLink.context}`);
+  }
+
+  if (deepLink.groupId) {
+    deepLinkUrl = urljoin(deepLinkUrl, `&groupId=${deepLink.groupId}`);
+  }
+
+  if (deepLink.tenantId) {
+    deepLinkUrl = urljoin(deepLinkUrl, `&tenantId=${deepLink.tenantId}`);
+  }
+
+  return deepLinkUrl;
 }
 
 /* tslint:disable:no-bitwise */
@@ -41,25 +106,111 @@ export function getEntityDeepLink(entity: Entity, appId: string, groupId?: strin
   const entityWebUrl = encodeURIComponent(entity.entityWebUrl);
   const entityLabel = encodeURIComponent(entity.entityLabel);
 
-  let deepLink = `https://teams.microsoft.com/l/entity/${appId}/${entityId}?webUrl=${entityWebUrl}&label=${entityLabel}`;
-  
+  let context;
   if (entity.subEntityId || entity.canvasUrl || entity.channelId) {
-    const context = encodeURIComponent(JSON.stringify({
+    context = encodeURIComponent(JSON.stringify({
       subEntityId: entity.subEntityId,
       canvasUrl: entity.canvasUrl,
       channelId: entity.channelId
     }));
-
-    deepLink = deepLink.concat(`&context=${context}`);
   }
 
-  if (groupId) {
-    deepLink = deepLink.concat(`&groupId=${groupId}`);
+  const deepLink: DeepLink = {
+    type: "entity",
+    containerId: appId,
+    itemId: entityId,
+    label: entityLabel,
+    context: context,
+    webUrl: entityWebUrl,
+    groupId: groupId,
+    tenantId: tenantId
+  };
+
+  return getDeepLinkUrl(deepLink);
+}
+
+export function getMeetingDeepLink(call: Call, tenantId?: string): string {
+  if (!call.conversationId) {
+    throw new Error("The conversationId is required")
   }
+
+  let context: any = {
+    Origin: 'web',
+    Oid: call.organizerId,
+    MessageId: call.messageId
+  };
 
   if (tenantId) {
-    deepLink = deepLink.concat(`&tenantId=${tenantId}`);
+    context.Tid = tenantId;
   }
 
-  return deepLink;
+  if (call.messageId) {
+    context.MessageId = call.messageId;
+  }
+
+  if (call.messageId) {
+    context.MessageId = call.messageId;
+  }
+
+  if (call.title) {
+    context.Title = call.title;
+  }
+
+  const deepLink: DeepLink = {
+    type: 'meetup',
+    containerId: call.conversationId,
+    itemId: call.rootMessageId || '0',
+    label: call.title,
+    context: JSON.stringify(context)
+  };
+
+  return getDeepLinkUrl(deepLink);
+}
+
+export function getTeamDeepLink(team: Team, groupId?: string, tenantId?: string): string {
+  if (!team.teamId) {
+    throw new Error("The teamId is required");
+  }
+
+  const deepLink: DeepLink = {
+    type: "team",
+    containerId: team.teamId,
+    itemId: "conversations",
+    groupId: groupId,
+    tenantId: tenantId,
+  };
+
+  return getDeepLinkUrl(deepLink);
+}
+
+export function getMessageDeepLink(message: Message, groupId?: string, tenantId?: string): string {
+  if (!message.conversationId || !message.messageId) {
+    throw new Error("The conversationId and messageId are required");
+  }
+
+  const deepLink: DeepLink = {
+    type: "message",
+    containerId: message.conversationId,
+    itemId: message.messageId,
+    groupId: groupId,
+    tenantId: tenantId,
+  }
+
+  return getDeepLinkUrl(deepLink);
+}
+
+export function getChannelDeepLink(channel: Channel, displayName: string, groupId?: string, tenantId?: string): string {
+  if (!channel.channelId) {
+    throw new Error("The channelId is required");
+  }
+
+  const deepLink: DeepLink = {
+    type: "channel",
+    containerId: channel.channelId,
+    itemId: encodeURIComponent(channel.displayName),
+    groupId: groupId,
+    tenantId: tenantId,
+  };
+
+  return getDeepLinkUrl(deepLink);
 }

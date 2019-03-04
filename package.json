@@ -24,5 +24,9 @@
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "@types/url-join": "^4.0.0",
+    "url-join": "^4.0.0"
   }
 }
